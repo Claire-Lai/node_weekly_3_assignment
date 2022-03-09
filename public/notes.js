@@ -5,8 +5,8 @@ var notesTemplate = Handlebars.compile(
   `
         {{#each notes}}
         <div class="note">
-            <span class="input"><textarea data-horse="pony" data-id="{{ @index }}"> {{ content }}</textarea></span>
-            <button class="remove btn btn-xs" data-id="{{ @index }}"><i class = "fa fa-trash" aria-hidden="true"></i></button>
+            <span class="input"><textarea data-horse="pony" data-id="{{ id }}"> {{ content }}</textarea></span>
+            <button class="remove btn btn-xs" data-id="{{ id }}"><i class = "fa fa-trash" aria-hidden="true"></i></button>
             </div>
             {{/each}}
         `
@@ -56,7 +56,7 @@ $(() => {
     beginSaving();
     console.log("updated");
     let updatedNote = $(event.currentTarget).val()
-    let updatedNoteId = $(event.currentTarget).data("data_id")
+    let updatedNoteId = $(event.currentTarget).data("id")
     console.log(updatedNote)
     console.log(updatedNoteId)
     axios.put(`/api/notes/${updatedNoteId}`,{note:updatedNote}).then((res)=>{reloadNotes(res.data)});
@@ -68,7 +68,8 @@ $(() => {
     // show saving message on DOM
     // code here
     console.log("remove pressed");
-    let removeId = $(".remove").index(event.currentTarget);
+    let removeId = $(event.currentTarget).data("id")
+    // let removeId = $(".remove").index(event.currentTarget);
     // let removeId = $("button.remove").attr("id");
     console.log(`remove with id: ${removeId}`);
     axios.delete(`/api/notes/${removeId}`).then((res)=>{

@@ -66,7 +66,7 @@ const noteService = new NoteService(knex);
 app.get("/", (req, res) => {
   // call noteService list method to list out all the notes from the user
   // You need a .then to wait for the list method to finish getting the notes and then pass the notes in the index.handlebars
-  noteService.list(req.auth.user).then(notes=> res.render("index",{notes}))
+  noteService.list(req.auth.user).then(notes=> res.render("index",{user:req.auth.user,notes}))
   // console.log("get request");
   // console.log(req.auth.user);
 });
